@@ -3,7 +3,7 @@ const asyncHandler = require('../utils/asyncHandler');
 const equipmentService = require('../services/equipmentService');
 
 const getEquipment = asyncHandler(async (req, res) => {
-  const items = await equipmentService.getAllEquipment();
+  const items = await equipmentService.searchEquipment(req.query);
   return sendSuccess(res, items);
 });
 

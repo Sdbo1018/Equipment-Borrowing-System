@@ -13,4 +13,27 @@ async function getEquipmentById(id) {
   return item;
 }
 
-module.exports = { getAllEquipment, getEquipmentById };
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+async function searchEquipment({ q, category } = {}) {
+  const filter = {};
+
+  if (q && q.trim()) {
+    const pattern = new RegExp(escapeRegex(q.trim()), 'i');
+    filter.$or = [
+      { name: pattern },
+      { category: pattern },
+      { serialNumber: pattern }
+    ];
+  }
+
+  if (category && category.trim()) {
+    filter.category = new RegExp(`^${escapeRegex(category.trim())}$`, 'i');
+  }
+
+  return Equipment.find(filter).sort({ name: 1 }).lean();
+}
+
+module.exports = { getAllEquipment, getEquipmentById, searchEquipment };
