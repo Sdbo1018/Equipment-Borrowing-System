@@ -1,14 +1,9 @@
-import { useState } from 'react';
-
 export default function BorrowedList({ borrowings = [], onReturn }) {
-  const [items, setItems] = useState(borrowings);
+  const items = borrowings;
 
   const active = items.filter((b) => b.status === 'borrowed');
 
   function handleReturn(id) {
-    setItems((prev) =>
-      prev.map((b) => (b._id === id ? { ...b, status: 'returned' } : b))
-    );
     if (onReturn) onReturn(id);
   }
 
