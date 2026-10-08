@@ -12,7 +12,10 @@ export default function App() {
         equipment={mockEquipment}
         onSubmit={(data) => console.log('Borrow request (mock):', data)}
       />
-      <BorrowedList borrowings={mockBorrowings} />
+      <BorrowedList
+        borrowings={mockBorrowings}
+        onReturn={(id) => console.log('Return requested (mock):', id)}
+      />
     </div>
   );
 }

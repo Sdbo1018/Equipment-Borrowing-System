@@ -1,5 +1,16 @@
-export default function BorrowedList({ borrowings = [] }) {
-  const active = borrowings.filter((b) => b.status === 'borrowed');
+import { useState } from 'react';
+
+export default function BorrowedList({ borrowings = [], onReturn }) {
+  const [items, setItems] = useState(borrowings);
+
+  const active = items.filter((b) => b.status === 'borrowed');
+
+  function handleReturn(id) {
+    setItems((prev) =>
+      prev.map((b) => (b._id === id ? { ...b, status: 'returned' } : b))
+    );
+    if (onReturn) onReturn(id);
+  }
 
   if (active.length === 0) {
     return <p>You have no borrowed equipment.</p>;
@@ -14,8 +25,10 @@ export default function BorrowedList({ borrowings = [] }) {
             <strong>{b.equipment?.name || 'Unknown equipment'}</strong>
             {' — Due: '}
             {new Date(b.dueDate).toLocaleDateString()}
-            {' — '}
-            {b.status}
+            {' '}
+            <button type="button" onClick={() => handleReturn(b._id)}>
+              Return
+            </button>
           </li>
         ))}
       </ul>
