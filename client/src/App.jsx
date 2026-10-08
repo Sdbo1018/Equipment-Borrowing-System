@@ -1,6 +1,7 @@
 import EquipmentList from './components/EquipmentList';
 import BorrowForm from './components/BorrowForm';
-import { mockEquipment } from './data/mockData';
+import BorrowedList from './components/BorrowedList';
+import { mockEquipment, mockBorrowings } from './data/mockData';
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
         equipment={mockEquipment}
         onSubmit={(data) => console.log('Borrow request (mock):', data)}
       />
+      <BorrowedList borrowings={mockBorrowings} />
     </div>
   );
 }
